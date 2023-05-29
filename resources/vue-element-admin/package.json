@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite serve --mode development",
     "build:prod": "vite build --mode production &&vue-tsc --noEmit",
-    "prepare": "husky install",
     "lint:eslint": "eslint  --fix --ext .ts,.js,.vue ./src ",
     "lint:prettier": "prettier --write \"**/*.{js,cjs,ts,json,tsx,css,less,scss,vue,html,md}\"",
     "lint:stylelint": "stylelint  \"**/*.{css,scss,vue}\" --fix",
@@ -95,7 +94,5 @@
     "vite-plugin-svg-icons": "^2.0.1",
     "vue-tsc": "^1.6.5 "
   },
-  "repository": "https://gitee.com/youlaiorg/vue3-element-admin.git",
-  "author": "有来开源组织",
   "license": "MIT"
 }

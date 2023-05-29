@@ -65,7 +65,7 @@ class UserController extends Controller
     public function logout()
     {
         Auth::logout();
-        return $this->success('退出成功...');
+        return $this->success('退出成功');
     }
 
     //返回当前登录用户信息
@@ -73,5 +73,32 @@ class UserController extends Controller
     {
         $user = Auth::user();
         return $this->success(new UserResource($user));
+    }
+
+    /**
+     * Refresh a token.
+     * 刷新token，如果开启黑名单，以前的token便会失效。
+     * 值得注意的是用上面的getToken再获取一次Token并不算做刷新，两次获得的Token是并行的，即两个都可用。
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refresh()
+    {
+        return $this->respondWithToken(auth('api')->refresh());
+    }
+
+    /**
+     * Get the token array structure.
+     *
+     * @param  string $token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth('api')->factory()->getTTL() * 60
+        ]);
     }
 }

@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api;
 
-
 Route::prefix('v1')->middleware('cors')->group(function () {
     Route::prefix('users')->middleware('user.guard')->group(function () {
         //user路由

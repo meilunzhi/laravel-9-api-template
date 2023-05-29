@@ -25,6 +25,7 @@
         "pion/laravel-chunk-upload": "^1.5",
         "predis/predis": "^2.1",
         "rap2hpoutre/laravel-log-viewer": "^2.3",
+        "realrashid/sweet-alert": "^7.0",
         "simplesoftwareio/simple-qrcode": "^4.2.0",
         "sujan97825/laravel-webp-converter": "^0.1.1",
         "tymon/jwt-auth": "^2.0"

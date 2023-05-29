@@ -178,6 +178,7 @@ return [
         Appstract\Opcache\OpcacheServiceProvider::class,
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
 
 
     ],
@@ -235,6 +236,7 @@ return [
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,
         'Debugbar'     => Barryvdh\Debugbar\Facades\Debugbar::class,
+        'Alert'        => RealRashid\SweetAlert\Facades\Alert::class,
 
 
     ],

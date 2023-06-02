@@ -2,16 +2,19 @@
 
 namespace App\Exceptions;
 
-use App\Api\Helpers\ExceptionReport;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Illuminate\Auth\AuthenticationException;
 use Throwable;
+use Log;
 
 class Handler extends ExceptionHandler
 {
     /**
      * A list of the exception types that are not reported.
      *
-     * @var array<int, class-string<Throwable>>
+     * @var array
      */
     protected $dontReport = [
         //
@@ -20,10 +23,9 @@ class Handler extends ExceptionHandler
     /**
      * A list of the inputs that are never flashed for validation exceptions.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $dontFlash = [
-        'current_password',
         'password',
         'password_confirmation',
     ];
@@ -36,28 +38,22 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $e) {
-            //
+            Log::error('systemError', [$e->getMessage(), $e->getTraceAsString()]);
         });
-    }
 
-    public function render($request, Throwable $exception)
-    {
-        //ajax请求我们才捕捉异常
-        if ($request->ajax()) {
-            if (env('APP_DEBUG')) {
-                //开发环境，则显示详细错误信息
-                return parent::render($request, $exception);
-            }
+        $this->renderable(function (AuthenticationException $e, $request){
+            return $request->ajax() ? response()->tokenInvalid() : abort(404); //未认证
+        });
+        $this->renderable(function (TokenExpiredException $e, $request){
+            return $request->ajax() ? response()->tokenInvalid() : abort(404); //未认证
+        });
+        $this->renderable(function (TokenBlacklistedException $e, $request){
+            return $request->ajax() ? response()->error('禁止登录', 403) : abort(403); //未认证
+        });
 
-            // 将方法拦截到自己的ExceptionReport
-            $reporter = ExceptionReport::make($exception);
-            if ($reporter->shouldReturn()) {
-                return $reporter->report();
-            }
+        $this->renderable(function (Throwable $e) {
+            return response()->error('系统异常');
+        });
 
-            //线上环境,未知错误，则显示500
-            return $reporter->prodReport();
-        }
-        return parent::render($request, $exception);
     }
 }

@@ -27,6 +27,8 @@ class RouteServiceProvider extends ServiceProvider
      * @var string|null
      */
     // protected $namespace = 'App\\Http\\Controllers';
+    protected $apiNamespace = 'App\\Http\\Api\\Controllers';
+    protected $adminNamespace = 'App\\Http\\Admin\\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -37,25 +39,20 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
-        $this->routes(function () {
-            //api
-            $this->mapApiRoutes();
-            //web
-            $this->mapWebRoutes();
+        $registrar = new \Cameron\Admin\Routing\ResourceRegistrar($this->app['router']);
+        $this->app->bind(\Illuminate\Routing\ResourceRegistrar::class, function() use ($registrar) {
+            return $registrar;
         });
 
-        // $this->routes(function () {
-        //     Route::prefix('api')
-        //         ->middleware('api')
-        //         ->namespace($this->namespace)
-        //         ->group(base_path('routes/api.php'));
-        //
-        //     Route::middleware('web')
-        //         ->namespace($this->namespace)
-        //         ->group(base_path('routes/web.php'));
-        // });
+       $this->routes(function () {
+          //api
+          $this->mapApiRoutes();
+          //admin
+          $this->mapAdminRoutes();
+          //web
+          $this->mapWebRoutes();
+       });
     }
-
 
     /**
      * @return void
@@ -64,11 +61,9 @@ class RouteServiceProvider extends ServiceProvider
     {
         $webRoutes = Route::middleware('web')
             ->namespace($this->namespace);
-        //获取指定目录下的所有文件并根据文件创建路由组
         array_map(function ($file) use ($webRoutes) {
             $webRoutes->group($file);
         }, self::getFilesArray(base_path('routes/web')));
-        // ->group(base_path('routes/web.php'));
     }
 
     /**
@@ -79,33 +74,24 @@ class RouteServiceProvider extends ServiceProvider
         $apiRoutes = Route::prefix('api')
             ->middleware('api')
             ->namespace($this->namespace);
-        //获取指定目录下的所有文件并根据文件创建路由组
         array_map(function ($file) use ($apiRoutes) {
             $apiRoutes->group($file);
         }, self::getFilesArray(base_path('routes/api')));
     }
 
-    // protected function mapChannelsRoutes()
-    // {
-    //     $routes = Route::middleware('channels')
-    //         ->namespace($this->namespace);
-    //     //获取指定目录下的所有文件并根据文件创建路由组
-    //     array_map(function ($file) use ($routes) {
-    //         $routes->group($file);
-    //     }, self::getFilesArray(base_path('routes/channels')));
-    //     // ->group(base_path('routes/web.php'));
-    // }
-    //
-    // protected function mapConsoleRoutes()
-    // {
-    //     $consoleRoutes = Route::middleware('web')
-    //         ->namespace($this->namespace);
-    //     //获取指定目录下的所有文件并根据文件创建路由组
-    //     array_map(function ($file) use ($consoleRoutes) {
-    //         $consoleRoutes->group($file);
-    //     }, self::getFilesArray(base_path('routes/console')));
-    //     // ->group(base_path('routes/web.php'));
-    // }
+
+    /**
+     * @return void
+     */
+    protected function mapAdminRoutes()
+    {
+        $apiRoutes = Route::prefix('admin')
+            ->middleware('api')
+            ->namespace($this->adminNamespace);
+        array_map(function ($file) use ($apiRoutes) {
+            $apiRoutes->group($file);
+        }, self::getFilesArray(base_path('routes/admin')));
+    }
 
     /**
      * @param         $searchDir
@@ -114,19 +100,16 @@ class RouteServiceProvider extends ServiceProvider
      */
     private static function getFilesArray($searchDir, array &$files = []): array
     {
-        //遍历目录下的所有文件和文件夹
         $handle = opendir($searchDir);
         while ($file = readdir($handle)) {
             if ($file !== '..' && $file !== '.') {
                 $f = $searchDir . '/' . $file;
                 if (is_file($f)) {
-                    //只取php文件
                     $extension = isset(pathinfo($file)['extension']) ? pathinfo($file)['extension'] : '';
                     if ($extension === 'php' || $extension === 'PHP') {
                         $files[] = $f;
                     }
                 } else {
-                    //递归查询目录下的所有文件
                     self::getFilesArray($f, $files);
                 }
             }

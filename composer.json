@@ -22,7 +22,7 @@
         "laravel/tinker": "^2.8.1",
         "laravel/ui": "^3.4.6",
         "medz/cors": "^1.5",
-        "meilunzhi/laravel-vue-admin": "^1.0.4",
+        "meilunzhi/laravel-vue-admin": "^2.0.1",
         "nette/utils": "^4.0.0",
         "pion/laravel-chunk-upload": "^1.5",
         "predis/predis": "^2.1",

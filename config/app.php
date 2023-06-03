@@ -165,8 +165,8 @@ return [
         /*
          * Package Service Providers...
          */
-        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Cameron\Admin\AdminServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -197,6 +197,7 @@ return [
 
     'aliases' => [
 
+        'auth'         => App\Http\Middleware\Authenticate::class,
         'App'          => Illuminate\Support\Facades\App::class,
         'Arr'          => Illuminate\Support\Arr::class,
         'Artisan'      => Illuminate\Support\Facades\Artisan::class,
@@ -238,8 +239,6 @@ return [
         'View'         => Illuminate\Support\Facades\View::class,
         'Debugbar'     => Barryvdh\Debugbar\Facades\Debugbar::class,
         'Alert'        => RealRashid\SweetAlert\Facades\Alert::class,
-
-
     ],
 
 ];

@@ -20,7 +20,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
-        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        // \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
     /**
@@ -43,6 +43,7 @@ class Kernel extends HttpKernel
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \Cameron\Admin\Middleware\LogOperation::class,
         ],
     ];
 
@@ -68,5 +69,7 @@ class Kernel extends HttpKernel
         'api.refresh'      => \App\Http\Middleware\Api\RefreshTokenMiddleware::class,
         'user.guard'       => \App\Http\Middleware\Api\UserGuardMiddleware::class,
         'admin.guard'      => \App\Http\Middleware\Api\AdminGuardMiddleware::class,
+        'service'          => \Cameron\Admin\Middleware\HasService::class,
+        'permission'       => \Cameron\Admin\Middleware\CheckPermission::class,
     ];
 }

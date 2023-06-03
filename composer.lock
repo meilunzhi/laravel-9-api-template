@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2b4242396ba745731f9200065fac1361",
+    "content-hash": "7e81dad30687bbb026f3d19eea112db2",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -3213,16 +3213,16 @@
         },
         {
             "name": "meilunzhi/laravel-vue-admin",
-            "version": "v1.0.4",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SummerMagic/laravel-api-vue-admin.git",
-                "reference": "799ecef0de83ed56be705f74e6bee44b3e4aea63"
+                "reference": "7c03edc4776faef4898372029befb0dfb0b81786"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SummerMagic/laravel-api-vue-admin/zipball/799ecef0de83ed56be705f74e6bee44b3e4aea63",
-                "reference": "799ecef0de83ed56be705f74e6bee44b3e4aea63",
+                "url": "https://api.github.com/repos/SummerMagic/laravel-api-vue-admin/zipball/7c03edc4776faef4898372029befb0dfb0b81786",
+                "reference": "7c03edc4776faef4898372029befb0dfb0b81786",
                 "shasum": ""
             },
             "require": {
@@ -3262,9 +3262,9 @@
             "description": "laravel-vue-admin",
             "support": {
                 "issues": "https://github.com/SummerMagic/laravel-api-vue-admin/issues",
-                "source": "https://github.com/SummerMagic/laravel-api-vue-admin/tree/v1.0.4"
+                "source": "https://github.com/SummerMagic/laravel-api-vue-admin/tree/v2.0.1"
             },
-            "time": "2023-06-02T08:05:38+00:00"
+            "time": "2023-06-02T09:26:22+00:00"
         },
         {
             "name": "mongodb/mongodb",
@@ -11711,7 +11711,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.0|^8.1",
+        "php": "^8.1",
         "ext-json": "*"
     },
     "platform-dev": [],
